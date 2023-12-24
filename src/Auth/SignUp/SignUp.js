@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -14,13 +15,16 @@ const Login = () => {
     try {
       if (!validateForm()) return;
 
-      const response = await fetch("http://restapi.adequateshop.com/api/authaccount/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }), // Update 'email' to 'username'
-      });
+      const response = await fetch(
+        "http://restapi.adequateshop.com/api/authaccount/registration",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, password, email }), // Update 'email' to 'name'
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Login failed");
@@ -39,9 +43,14 @@ const Login = () => {
   };
 
   const validateForm = () => {
+    const usernameRegex = /^[a-zA-Z0-9_]+$/; // Add a regex pattern for the username
+    if (!usernameRegex.test(name)) {
+      setError("Please enter a valid username.");
+      return false;
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
+      setError("Please enter a valid email address.");
       return false;
     }
     if (password.length < 6) {
@@ -58,7 +67,7 @@ const Login = () => {
           onSubmit={handleSubmit}
           className="flex  flex-col justify-center items-center self-stretch"
         >
-          <h2>Login</h2>
+          <h2>Register</h2>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <div className="p-3">
             <label htmlFor="email">Email</label>
@@ -69,6 +78,17 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="p-3">
+            <label htmlFor="username">Username:</label>
+            <br></br>
+            <input
+              className="p-2"
+              id="username"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="p-3">
@@ -86,13 +106,13 @@ const Login = () => {
             type="submit"
             className="w-[150px] border-2 py-2 p-3 rounded-md bg-fuchsia-900 hover:text-white text-center"
           >
-            Login
+            SignUp
           </button>
           <Link
-            to="SignUp"
+            to="/"
             className="w-[150px] border-2 py-2 p-3 rounded-md bg-fuchsia-900 hover:text-white text-center"
           >
-            Register
+            Login
           </Link>
         </form>
       </div>
@@ -100,4 +120,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
