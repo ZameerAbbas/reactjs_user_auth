@@ -1,9 +1,11 @@
 login 
-username: 'kminchelle',
-password: '0lelplR',
+{
+	"email":"Developer5@gmail.com",
+	"password":123456
+}
 
 dummpy login api link
-https://dummyjson.com/docs/auth
+[https://dummyjson.com/docs/auth](https://www.appsloveworld.com/sample-rest-api-url-for-testing-with-authentication#huserlogin)
 
 
 # Getting Started with Create React App
