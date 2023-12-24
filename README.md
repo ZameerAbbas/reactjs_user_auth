@@ -1,3 +1,6 @@
+login 
+username: 'kminchelle',
+password: '0lelplR',
 
 dummpy login api link
 https://dummyjson.com/docs/auth
