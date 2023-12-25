@@ -22,28 +22,29 @@ const SignUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, password, email }), // Update 'email' to 'name'
+          body: JSON.stringify({ name, password, email }),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
       }
 
       const data = await response.json();
 
-      console.log("Login successful:", data);
+      console.log("Registration successful:", data);
       localStorage.setItem("token", data.token);
 
-      // Use navigate to navigate to the main page after successful login
-      navigate("/Main"); // Update '/main' with your main page route
+      // Use navigate to navigate to the main page after successful registration
+      navigate("/Main");
     } catch (error) {
       setError(error.message);
     }
   };
 
   const validateForm = () => {
-    const usernameRegex = /^[a-zA-Z0-9_]+$/; // Add a regex pattern for the username
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
     if (!usernameRegex.test(name)) {
       setError("Please enter a valid username.");
       return false;
@@ -70,8 +71,8 @@ const SignUp = () => {
           <h2>Register</h2>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <div className="p-3">
-            <label htmlFor="email">Email</label>
-            <br></br>
+            <label htmlFor="email">Email:</label>
+            <br />
             <input
               className="p-2"
               id="email"
@@ -82,7 +83,7 @@ const SignUp = () => {
           </div>
           <div className="p-3">
             <label htmlFor="username">Username:</label>
-            <br></br>
+            <br />
             <input
               className="p-2"
               id="username"
@@ -110,7 +111,7 @@ const SignUp = () => {
           </button>
           <Link
             to="/"
-            className="w-[150px] border-2 py-2 p-3 rounded-md bg-fuchsia-900 hover:text-white text-center"
+            className="w-[150px] border-2 py-2 p-3 rounded-md bg-fuchsia-900 hover:text-white text-center mt-3"
           >
             Login
           </Link>
